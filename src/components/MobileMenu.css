@@ -1,0 +1,31 @@
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    padding: 8px 20px 18px;
+    gap: 2px;
+    border-bottom: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  .mobile-nav-open {
+    display: flex;
+  }
+
+  .mobile-nav a {
+    padding: 12px 8px;
+    font-weight: var(--fw-semibold);
+    font-size: 14.5px;
+    text-decoration: none;
+    color: var(--ink);
+    border-radius: var(--radius-sm);
+  }
+
+  .mobile-nav a:active {
+    background: var(--green-100);
+  }
+}

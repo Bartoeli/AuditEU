@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Audit EU — grafický návrh (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#052e1f;
+    --green-800:#076b40;
+    --green-700:#0a935c;
+    --green-600:#00ab66;
+    --green-500:#00c852;
+    --green-100:#e6f6ee;
+    --ink:#16232a;
+    --slate:#5b6b74;
+    --slate-light:#8b9aa3;
+    --line:#e7edeb;
+    --bg-soft:#f6f9f8;
+    --radius:16px;
+    --shadow:0 10px 30px rgba(10,40,30,.08);
+    --shadow-lg:0 20px 50px rgba(10,40,30,.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--ink);
+    background:#0d1a15;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---------- preview toolbar ---------- */
+  .toolbar{
+    position:sticky; top:0; z-index:100;
+    background:#0d1a15; color:#cfe6da;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 16px; font-size:13px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .toolbar .label{color:#7fa896; margin-right:6px; font-weight:600; letter-spacing:.02em;}
+  .toolbar button{
+    appearance:none; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.04);
+    color:#e7f3ec; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600;
+    cursor:pointer; transition:.15s; display:flex; align-items:center; gap:6px;
+  }
+  .toolbar button:hover{background:rgba(255,255,255,.1);}
+  .toolbar button.active{background:var(--green-500); border-color:var(--green-500); color:#04150d;}
+
+  /* ---------- device frame (container-query driven) ---------- */
+  .stage{ padding:36px 16px 60px; display:flex; justify-content:center; }
+  .device-frame{
+    container-type:inline-size; container-name:page;
+    width:100%; max-width:1400px;
+    background:#fff; border-radius:22px; overflow:hidden;
+    box-shadow:var(--shadow-lg);
+    transition:width .35s cubic-bezier(.4,0,.2,1);
+  }
+  .device-frame.tablet{max-width:834px;}
+  .device-frame.mobile{max-width:390px; border-radius:32px; box-shadow:0 0 0 8px #14241d, var(--shadow-lg);}
+
+  /* ================= HEADER ================= */
+  header.site{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 40px; background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none;}
+  .brand img{height:38px; display:block;}
+  .brand .name{font-weight:800; font-size:16px; color:var(--green-800); line-height:1.1;}
+  .brand .name small{display:block; font-weight:500; font-size:11px; color:var(--slate); letter-spacing:.03em;}
+  nav.main{display:flex; align-items:center; gap:2px;}
+  nav.main a{
+    font-size:13.5px; font-weight:600; text-decoration:none; color:var(--ink);
+    padding:10px 14px; border-radius:999px; transition:.15s;
+    white-space:nowrap;
+  }
+  nav.main a:hover{background:var(--green-100); color:var(--green-700);}
+  .burger{display:none; width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:#fff; align-items:center; justify-content:center; cursor:pointer;}
+  .burger svg{width:20px; height:20px;}
+  .mobile-nav{display:none; flex-direction:column; padding:8px 20px 18px; gap:2px; border-bottom:1px solid var(--line); background:#fff;}
+  .mobile-nav a{padding:12px 8px; font-weight:600; font-size:14.5px; text-decoration:none; color:var(--ink); border-radius:10px;}
+  .mobile-nav a:active{background:var(--green-100);}
+  .mobile-nav.open{display:flex;}
+
+  /* ================= HERO ================= */
+  .hero{
+    padding:72px 40px 56px; background:
+      radial-gradient(1100px 420px at 85% -10%, #e6f8ef 0%, rgba(230,248,239,0) 60%),
+      #fff;
+  }
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; background:var(--green-100); color:var(--green-700); font-weight:700; font-size:12px; letter-spacing:.06em; text-transform:uppercase; padding:7px 14px; border-radius:999px; margin-bottom:20px;}
+  .eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--green-500);}
+  h1.hero-title{font-size:44px; line-height:1.12; font-weight:800; letter-spacing:-.02em; margin:0 0 20px; max-width:780px; color:var(--green-900);}
+  h1.hero-title span{color:var(--green-600);}
+  .hero-lead{font-size:17px; line-height:1.6; color:var(--slate); max-width:640px; margin:0 0 32px;}
+  .hero-lead strong{color:var(--ink);}
+  .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:44px;}
+  .btn{display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:14px; padding:13px 24px; border-radius:12px; text-decoration:none; cursor:pointer; border:1px solid transparent;}
+  .btn-primary{background:var(--green-600); color:#fff; box-shadow:0 8px 20px rgba(11,154,92,.28);}
+  .btn-primary:hover{background:var(--green-700);}
+  .btn-ghost{background:#fff; color:var(--ink); border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--green-500); color:var(--green-700);}
+
+  .service-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .s-card{
+    display:block; text-decoration:none; color:var(--ink);
+    background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 22px; transition:.18s;
+  }
+  .s-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:var(--green-500); background:#fff;}
+  .s-card .ico{width:44px; height:44px; border-radius:12px; background:var(--green-100); color:var(--green-700); display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+  .s-card .ico svg{width:22px; height:22px;}
+  .s-card h3{margin:0 0 6px; font-size:16px; font-weight:700;}
+  .s-card p{margin:0; font-size:13.5px; color:var(--slate); line-height:1.5;}
+  .s-card .go{margin-top:14px; font-size:13px; font-weight:700; color:var(--green-600); display:flex; align-items:center; gap:4px;}
+
+  .trust-line{margin-top:36px; display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--slate-light); font-weight:600;}
+  .trust-line svg{width:16px; height:16px; color:var(--green-600); flex:none;}
+
+  /* ================= SECTIONS ================= */
+  section.block{padding:64px 40px; border-top:1px solid var(--line);}
+  section.block.alt{background:var(--bg-soft);}
+  .section-head{max-width:720px; margin:0 0 32px;}
+  .kicker{font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--green-600); margin:0 0 10px;}
+  h2.h{font-size:28px; font-weight:800; letter-spacing:-.01em; margin:0 0 10px; color:var(--green-900);}
+  .section-head p{color:var(--slate); font-size:15px; line-height:1.6; margin:0;}
+
+  .cols{display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:start;}
+  h3.sub{font-size:15.5px; font-weight:700; margin:22px 0 8px; color:var(--ink);}
+  h3.sub:first-child{margin-top:0;}
+  p.body-text{font-size:14.5px; line-height:1.7; color:var(--slate); margin:0 0 14px;}
+  ul.check{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;}
+  ul.check li{display:flex; gap:10px; font-size:14px; line-height:1.55; color:var(--ink);}
+  ul.check li svg{width:17px; height:17px; color:var(--green-600); flex:none; margin-top:2px;}
+
+  .info-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow);}
+  .info-card .row{display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); font-size:14px;}
+  .info-card .row:last-child{border-bottom:none;}
+  .info-card .row b{width:88px; flex:none; color:var(--slate-light); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; padding-top:2px;}
+
+  .cert-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px;}
+  .cert{background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; text-decoration:none; color:var(--ink); transition:.15s;}
+  .cert:hover{border-color:var(--green-500); box-shadow:var(--shadow);}
+  .cert .doc-ico{width:100%; height:64px; border-radius:8px; background:var(--bg-soft); display:flex; align-items:center; justify-content:center; margin-bottom:10px; color:var(--green-600);}
+  .cert .doc-ico svg{width:26px; height:26px;}
+  .cert span{font-size:12px; font-weight:600; line-height:1.4; display:block;}
+
+  .ref-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px 24px;}
+  .ref-grid div{display:flex; align-items:center; gap:10px; font-size:14.5px; font-weight:600; padding:12px 16px; background:#fff; border:1px solid var(--line); border-radius:10px;}
+  .ref-grid div svg{width:16px; height:16px; color:var(--green-600); flex:none;}
+  .note-box{margin-top:22px; padding:16px 18px; background:var(--green-900); color:#cfe6da; border-radius:12px; font-size:13.5px; line-height:1.6;}
+
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .c-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);}
+  .c-card h4{margin:0 0 14px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--slate-light); font-weight:700;}
+  .c-card .big{font-size:15px; font-weight:700; margin-bottom:4px;}
+  .c-card a.link{color:var(--green-700); font-weight:700; text-decoration:none; font-size:14.5px;}
+  .c-card p{font-size:14px; color:var(--slate); line-height:1.6; margin:0 0 4px;}
+  .map-thumb{border-radius:12px; overflow:hidden; border:1px solid var(--line); display:block;}
+  .map-thumb img{width:100%; display:block;}
+
+  /* ================= FOOTER ================= */
+  footer.site{background:var(--green-900); color:#cfe6da; padding:48px 40px 26px;}
+  .footer-top{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:32px; padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,.12);}
+  .footer-brand{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .footer-brand img{height:30px; filter:brightness(0) invert(1); opacity:.95;}
+  .footer-brand span{font-weight:800; font-size:15px; color:#fff;}
+  footer.site p{font-size:13px; line-height:1.7; color:#9fbcae; max-width:320px; margin:0;}
+  footer.site h5{font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:#7fa896; margin:0 0 14px; font-weight:700;}
+  footer.site ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  footer.site ul a{font-size:13.5px; color:#dcede4; text-decoration:none;}
+  footer.site ul a:hover{color:#fff;}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:20px; font-size:12.5px; color:#7fa896; flex-wrap:wrap; gap:10px;}
+  .footer-bottom a{color:#9fbcae; text-decoration:none;}
+
+  /* ================= responsive breakpoints ================= */
+  /* Driven by the Desktop/Tablet/Mobil toggle (.tablet / .mobile on #frame), NOT by the
+     actual rendered pixel width — this keeps "Desktop" always showing the full desktop
+     layout even inside a narrow preview panel. The real React build will use normal
+     @media queries reacting to the real screen width; this is just for an accurate demo. */
+  .device-frame.tablet, .device-frame.mobile{
+    /* also apply automatically on any real narrow window/viewport, so the mockup is
+       genuinely responsive if you resize the browser too */
+  }
+  @media (max-width: 1000px){
+    header.site{padding:14px 24px;}
+    .hero, section.block, footer.site{padding-left:24px; padding-right:24px;}
+    h1.hero-title{font-size:34px;}
+    .cols{grid-template-columns:1fr; gap:28px;}
+    .footer-top{grid-template-columns:1fr 1fr; row-gap:28px;}
+  }
+  @media (max-width: 700px){
+    .device-frame:not(.tablet):not(.mobile) nav.main{display:none;}
+    .device-frame:not(.tablet):not(.mobile) .burger{display:flex;}
+  }
+  .device-frame.tablet{max-width:834px;}
+  .device-frame.tablet header.site{padding:14px 24px;}
+  .device-frame.tablet .hero, .device-frame.tablet section.block, .device-frame.tablet footer.site{padding-left:24px; padding-right:24px;}
+  .device-frame.tablet h1.hero-title{font-size:34px;}
+  .device-frame.tablet .cols{grid-template-columns:1fr; gap:28px;}
+  .device-frame.tablet .footer-top{grid-template-columns:1fr 1fr; row-gap:28px;}
+
+  .device-frame.mobile{max-width:390px; border-radius:32px; box-shadow:0 0 0 8px #14241d, var(--shadow-lg);}
+  .device-frame.mobile header.site{padding:14px 20px;}
+  .device-frame.mobile nav.main{display:none;}
+  .device-frame.mobile .burger{display:flex;}
+  .device-frame.mobile .hero, .device-frame.mobile section.block, .device-frame.mobile footer.site{padding-left:20px; padding-right:20px;}
+  .device-frame.mobile h1.hero-title{font-size:28px;}
+  .device-frame.mobile .hero-lead{font-size:15px;}
+  .device-frame.mobile .service-cards{grid-template-columns:1fr;}
+  .device-frame.mobile .cols{grid-template-columns:1fr; gap:24px;}
+  .device-frame.mobile .cert-grid{grid-template-columns:1fr 1fr;}
+  .device-frame.mobile .ref-grid{grid-template-columns:1fr;}
+  .device-frame.mobile .contact-grid{grid-template-columns:1fr;}
+  .device-frame.mobile .footer-top{grid-template-columns:1fr; gap:26px;}
+  .device-frame.mobile .hero{padding-top:32px;}
+  .device-frame.mobile section.block{padding-top:40px; padding-bottom:40px;}
+  .device-frame.mobile h2.h{font-size:22px;}
+  .device-frame.mobile .btn{width:100%; justify-content:center;}
+  .device-frame.mobile .hero-actions{flex-direction:column;}
+
+  /* on real, genuinely wide monitors the page keeps a comfortable max width and the
+     dark surrounding becomes visible padding either side, as requested */
+  @media (min-width:1700px){
+    .stage{padding-top:56px;}
+  }
+
+  .note-callout{max-width:1400px; margin:0 auto 0; padding:0 16px; text-align:center;}
+  .note-callout p{color:#7fa896; font-size:12.5px; margin:14px 0 0;}
+
+  /* ---------- footer brand watermark ---------- */
+  footer.site{position:relative; overflow:hidden;}
+  .footer-mark{
+    position:absolute; right:-40px; bottom:-40px; width:260px; height:260px;
+    opacity:.10; pointer-events:none; user-select:none;
+  }
+  .device-frame.mobile .footer-mark{width:170px; height:170px; right:-30px; bottom:-30px;}
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <span class="label">Náhled na:</span>
+    <button class="active" data-view="desktop">🖥️ Desktop</button>
+    <button data-view="tablet">📟 Tablet</button>
+    <button data-view="mobile">📱 Mobil</button>
+  </div>
+
+  <div class="stage">
+    <div class="device-frame" id="frame">
+
+      <!-- ================= HEADER ================= -->
+      <header class="site">
+        <a class="brand" href="#home">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABTCAMAAAAWcE3zAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAA8UExURVlWV8jHx37Vsrm6vJqbnaurrGhlZu/y8eTk5ISDhTYyM9bV1cHCxACrZ5GPj9Th3Lu9wCMfIHZ4e////1Kbp3EAAAOeSURBVHja7JvrdqQgDIBhAbk4CxXf/12Xi1zk4kxnnO7YQ35UKzF8xiQEewpuXxeWG/haLyxfA3/gD/yBP/AH/sAf+AN/4P8oPkU9UV5BdRVooVCZpO/HV7onGw7qKqhCoTKpBv7vx29Ms8evx9Ue/1Bh4P9yfPonCW3hFwo1vjID66b44/jqbxLVwi8Uavw/ZmDdFD8eP5OBfwq+WtOxid/GGfjXwVcEW4E07xohRRgTFq9AZHWQ+jj8W2goZI7AubsWHgkHJXgqfr4wNPHd6CE+10QxxWaeDRpVyVaKw4yz56ZE81Px71aeIEerub+I8A6fugMOBsle+Xx8mnYjT+EXCPbAMAqxE0/gm/Dbq+59fKy53YdBVuNnOuVzfEzLxviWlZheEd8MQOt+rW8XxKeKhZvwafhk91kAee/k+PVXBrLHP1TIYyeQHuGjMDV/rPLsN6ZP73V7Crn3t6Chpv4zjHf4KFQeqDn1R02j0kfgpwVVs+j07QTHF2LSW2LMLUL5Zv4zvmlu7Ag3q1Z07HYSvW/WW+mK021d73l/fOMc+CfgQyvsOaszhLOPY2Pj4MsshQ2ZNwuwzfQYvlysgOfwQbjTWoF9Pbg0BGwWllp/Ka/28JnwtuQ18SeLbh5BsJfwY/AQAMDcxJc9Cy/gQ+cF9Gz4gOq+9mt4F77ws1kj6Hr4djK9ZYDIKgeRMp8Nml9jcM1YeoEZvtcwPy2O3hTkm/ETtX0O3jWauRSLlHuCF6kri+R8M769F6dTeB9fO2ppEhXJKSu5XuNnvZ9nLNxlbw+fmJMpBhkDS1U4+7EvQCEv4lORT6VzB/XwrcNZWbcexK/kRfyQt+lhYvHv4YvCrPgGvi6bhtfw2VJUmyx8evjl+gC+gX9y7Gd5my6gq+AjVzZyEel1fDw+FUtT+L3YF4/GPgeAP4lPl2KeCt9OMxW5hOwjzQ2jIK88cJ8+Xfy8oejj61a74urzEb7L26rJxAEH7/LC/uaZ3EoR05026r6dmQT86T6+WxEKfiKqCCzwq7zdX/ZgkkCzjmofZtmqO5l+BxI5iaXGd34xN8pdF9hctnxo8WVLQu4WanPiLuCjzWKvQ44vheq8teHJGyTveXBju5IUBHlgu2LGpmpEVF/I9/i2o5ybf/HxnaQz6ztLDIuOkyHf0KDZ2SFlT0phbEiTW2RDSLZlzi+3Nt7jQ8nAH/gDf+AP/IE/8Af+wB/4vxn/2v8t/U+AAQBCjEF9IrMCfgAAAABJRU5ErkJggg==" alt="Audit EU" />
+          <span class="name">Audit EU<small>auditorské a účetní služby</small></span>
+        </a>
+        <nav class="main">
+          <a href="#home">Domů</a>
+          <a href="#sluzby">Služby</a>
+          <a href="#o-spolecnosti">O společnosti</a>
+          <a href="#firma">Firma</a>
+          <a href="#reference">Reference</a>
+          <a href="#kontakt">Kontakt</a>
+        </nav>
+        <button class="burger" id="burgerBtn" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </header>
+      <div class="mobile-nav" id="mobileNav">
+        <a href="#home">Domů</a>
+        <a href="#sluzby">Služby</a>
+        <a href="#o-spolecnosti">O společnosti</a>
+        <a href="#firma">Firma</a>
+        <a href="#reference">Reference</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+
+      <!-- ================= HERO ================= -->
+      <section class="hero" id="home">
+        <div class="eyebrow">Audit EU s.r.o. · od roku 2006</div>
+        <h1 class="hero-title">Nezávislý pohled na vaše <span>účetnictví a hospodaření</span></h1>
+        <p class="hero-lead">
+          Posláním naší <strong>auditorské práce</strong> je nezávislý pohled na účetní výkazy klienta.
+          Ověřením účetních výkazů publikovaných vedením společnosti zvyšujeme jejich věrohodnost —
+          jednak pro externí subjekty jako jsou banky a věřitelé, jednak pro akcionáře a majitele.
+          Dále poskytujeme komplexní služby v oblasti <strong>účetnictví a ekonomického poradenství</strong>.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#kontakt">Domluvit konzultaci</a>
+          <a class="btn btn-ghost" href="#sluzby">Naše služby</a>
+        </div>
+
+        <div class="service-cards" id="sluzby">
+          <a class="s-card" href="#audit">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <h3>Auditorské služby</h3>
+            <p>Ověřování účetních závěrek, výročních zpráv a čerpání dotací dle zákona o auditorech.</p>
+            <div class="go">Zjistit více →</div>
+          </a>
+          <a class="s-card" href="#ekonomicke">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+            <h3>Ekonomické poradenství</h3>
+            <p>Podklady pro banky, podnikatelské záměry a sledování ekonomických ukazatelů.</p>
+            <div class="go">Zjistit více →</div>
+          </a>
+          <a class="s-card" href="#ucetni">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+            <h3>Účetní poradenství</h3>
+            <p>Vedení účetnictví, daňové evidence a zpracování vnitropodnikových směrnic.</p>
+            <div class="go">Zjistit více →</div>
+          </a>
+        </div>
+
+        <div class="trust-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+          Držitel oprávnění č. 468 vydaného Komorou auditorů České republiky
+        </div>
+      </section>
+
+      <!-- ================= AUDITORSKÉ SLUŽBY ================= -->
+      <section class="block" id="audit">
+        <div class="section-head">
+          <p class="kicker">Služby · 01</p>
+          <h2 class="h">Auditorské služby dle zákona č. 93/2009 Sb.</h2>
+          <p>Poslání a smysl auditu je vyjádřit názor nezávislé, kvalifikované osoby na věrohodnost účetní závěrky zveřejněné vedením účetní jednotky.</p>
+        </div>
+        <div class="cols">
+          <div>
+            <h3 class="sub">Poslání a smysl auditu</h3>
+            <p class="body-text">
+              Auditor ověřuje, zda údaje uvedené v účetní závěrce věrně zobrazují stav majetku a závazků,
+              finanční situaci a výsledek hospodaření společnosti v souladu s pravidly předepsanými
+              českými nebo jinými účetními předpisy, často s Mezinárodními účetními standardy.
+              Povinnost ověření účetní závěrky auditorem mají účetní jednotky specifikované v §20
+              zákona č. 563/1991 Sb., o účetnictví.
+            </p>
+          </div>
+          <div>
+            <h3 class="sub">Nabízíme mimo jiné</h3>
+            <ul class="check">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování účetních závěrek</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování konsolidovaných účetních závěrek</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování výročních zpráv</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování zprávy o vztazích mezi propojenými osobami</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování mezitímních účetních závěrek a zahajovacích rozvah při přeměnách společností</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování účetních informací pro specifické účely</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování dalších ekonomických informací</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověřování čerpání dotací</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= EKONOMICKÉ PORADENSTVÍ ================= -->
+      <section class="block alt" id="ekonomicke">
+        <div class="section-head">
+          <p class="kicker">Služby · 02</p>
+          <h2 class="h">Ekonomické poradenství</h2>
+        </div>
+        <ul class="check" style="max-width:640px;">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Zpracování podkladů k žádostem o úvěry pro banky</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Zpracování podnikatelských záměrů včetně ekonomického posouzení vybraných ukazatelů a veličin</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Vyhodnocení ekonomických ukazatelů k určitému datu</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Sledování vybraných ekonomických ukazatelů v časové řadě</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověření funkčnosti vnitřních kontrol, tj. metod, předpisů a postupů používaných ve firmě</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Manažerské účetnictví</li>
+        </ul>
+      </section>
+
+      <!-- ================= ÚČETNÍ PORADENSTVÍ ================= -->
+      <section class="block" id="ucetni">
+        <div class="section-head">
+          <p class="kicker">Služby · 03</p>
+          <h2 class="h">Účetní poradenství</h2>
+        </div>
+        <div class="cols">
+          <ul class="check">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Zpracování účetních závěrek</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Zpracování vnitropodnikových směrnic</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Poradenství při řešení účetních případů</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Vedení účetnictví</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Vedení daňové evidence</li>
+          </ul>
+          <ul class="check">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Ověření správnosti vnitřních kontrol při předávání informací do účetního systému</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Prověření informačního systému se zaměřením na splnění požadavků zákona o účetnictví</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Návrhy vnitřního kontrolního systému</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Spolupráce při sestavení účetní závěrky</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Optimalizace kalkulací a návrh způsobu oceňování</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ================= O SPOLEČNOSTI ================= -->
+      <section class="block alt" id="o-spolecnosti">
+        <div class="section-head">
+          <p class="kicker">O nás</p>
+          <h2 class="h">O společnosti</h2>
+        </div>
+        <div class="cols">
+          <div>
+            <p class="body-text">
+              Naše společnost Audit EU s.r.o. byla založena v roce 2006. Její aktuální i bývalí společníci
+              navázali na předchozí několikaleté zkušenosti získané v pracovních poměrech v různých
+              auditorských společnostech. Audit EU s.r.o. je držitelem oprávnění č. 468 vydané Komorou
+              auditorů České republiky.
+            </p>
+            <p class="body-text">
+              Auditoři i asistenti auditorů při své práci důsledně uplatňují metodiku, která se opírá
+              o auditorské standardy vydané Komorou auditorů České republiky. Všichni zaměstnanci se
+              průběžně vzdělávají, aby byli ve svém oboru opravdovými profesionály.
+            </p>
+            <p class="body-text">
+              K potřebám klientů přistupujeme individuálně. Našimi stávajícími klienty jsou právnické
+              i fyzické osoby působící v České republice.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="row"><b>Založeno</b><span>2006</span></div>
+            <div class="row"><b>Oprávnění</b><span>č. 468, Komora auditorů ČR</span></div>
+            <div class="row"><b>Působnost</b><span>Celá Česká republika</span></div>
+            <div class="row"><b>Klienti</b><span>Právnické i fyzické osoby</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FIRMA ================= -->
+      <section class="block" id="firma">
+        <div class="section-head">
+          <p class="kicker">Firemní údaje</p>
+          <h2 class="h">Firma</h2>
+        </div>
+        <div class="cols">
+          <div class="info-card" style="margin:0;">
+            <div class="row"><b>Název</b><span>Audit EU s.r.o.</span></div>
+            <div class="row"><b>Sídlo</b><span>Wonkova 385/28, 500 02 Hradec Králové</span></div>
+            <div class="row"><b>IČ</b><span>27505570</span></div>
+            <div class="row"><b>DIČ</b><span>CZ27505570</span></div>
+            <div class="row"><b>Působnost</b><span>Po celé České republice</span></div>
+          </div>
+          <div>
+            <h3 class="sub" style="margin-top:0;">Dokumenty ke stažení / náhledu</h3>
+            <div class="cert-grid">
+              <a class="cert" href="#">
+                <div class="doc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <span>Výpis z obchodního rejstříku</span>
+              </a>
+              <a class="cert" href="#">
+                <div class="doc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <span>Osvědčení o zápisu do seznamu auditorských společností</span>
+              </a>
+              <a class="cert" href="#">
+                <div class="doc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <span>Osvědčení o zápisu do seznamu auditorů</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= REFERENCE ================= -->
+      <section class="block alt" id="reference">
+        <div class="section-head">
+          <p class="kicker">Klienti</p>
+          <h2 class="h">Reference</h2>
+        </div>
+        <div class="ref-grid">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>AG Com, a.s.</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>ASPA a.s.</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>DLNK s.r.o.</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>FEIFER – kovovýroba, spol. s r.o.</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>FREE ZONE Pardubice, a.s.</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>Jiří Hartman – elektro</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>TMM s.r.o.</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>TOTO CZ a.s.</div>
+        </div>
+        <div class="note-box">
+          <strong>Subjekty veřejného zájmu:</strong> Neprovádíme audit subjektů veřejného zájmu dle §2a zákona č. 93/2009 Sb., o auditorech.
+        </div>
+      </section>
+
+      <!-- ================= KONTAKT ================= -->
+      <section class="block" id="kontakt">
+        <div class="section-head">
+          <p class="kicker">Spojte se s námi</p>
+          <h2 class="h">Kontakt</h2>
+        </div>
+        <div class="contact-grid">
+          <div class="c-card">
+            <h4>Sídlo společnosti</h4>
+            <div class="big">Audit EU s.r.o.</div>
+            <p>Wonkova 385/28<br/>500 02 Hradec Králové</p>
+            <p style="margin-top:14px;"><a class="link" href="mailto:mail@auditeu.cz">mail@auditeu.cz</a></p>
+            <p><a class="link" href="http://www.auditeu.cz">www.auditeu.cz</a></p>
+            <a class="map-thumb" href="https://mapy.cz/s/tyw2" style="margin-top:16px;">
+              <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4QBMRXhpZgAASUkqAAgAAAACABIBAwABAAAAAQAAAGmHBAABAAAAJgAAAAAAAAACAAKgCQABAAAACQEAAAOgCQABAAAAyAAAAAAAAAD/4Qn0aHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA0LjQuMC1FeGl2MiI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIiB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIgZXhpZjpQaXhlbFhEaW1lbnNpb249IjI2NSIgZXhpZjpQaXhlbFlEaW1lbnNpb249IjIwMCIgdGlmZjpJbWFnZVdpZHRoPSIyNjUiIHRpZmY6SW1hZ2VIZWlnaHQ9IjIwMCIgdGlmZjpPcmllbnRhdGlvbj0iMSIvPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDw/eHBhY2tldCBlbmQ9InciPz7/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQ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" alt="Audit EU – sídlo na mapě" />
+            </a>
+          </div>
+          <div class="c-card">
+            <h4>Auditorka</h4>
+            <div class="big">Mgr. Michaela Bartošová</div>
+            <p>tel: <a class="link" href="tel:+420603228993">+420 603 228 993</a></p>
+            <p>e-mail: <a class="link" href="mailto:bartosova@auditeu.cz">bartosova@auditeu.cz</a></p>
+            <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--line);">
+              <h4 style="margin-bottom:10px;">Proč Audit EU</h4>
+              <ul class="check">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Individuální přístup ke každému klientovi</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Zkušenosti od roku 2006</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Působnost po celé ČR</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FOOTER ================= -->
+      <footer class="site">
+        <img class="footer-mark" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAACYCAYAAAAYwiAhAAACWklEQVR4nO3d0WkVURRA0ROxgYAlSEoQ0kKKibVoLyE9mA5MCSli/BAE/4Tc/a6TrAXze+fw2HB/5nGujuP4OTOPc26fZ+Zu9xCB77sHeK2r4zi+zczX3YO80t3MPOweYrHnmbnZPcRrfdg9AG+bwEgJjJTASAmMlMBICYyUwEgJjJTASAmMlMBICYyUwEgJjJTASAmM1MfF513PzO3iM//Flw3vrH2aPZ+Bv8zM06rDVgd2O2/v0+VdrmfPb7n0U21XJCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkRIYqdX/Kio9z7qNJLs2g6zc3HG/8KzMmQJ7nHUbSe7m8oE9z9qNKqcIzBVJSmCkBEZKYKQERkpgpARGSmCkBEZKYKQERkpgpARGSmCkBEZKYKQERkpgpARGSmCkBEZKYKQERkpgpARGSmCkBEZKYKQERkpgpARGSmCkBEZKYKQERkpgpARGSmCkBEZKYKQERkpgpARGSmCkBEZKYKTOtM5vpZf5vV7vkn5c+H3/hfca2NPM3Owe4j1wRZISGCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhipMwV2PzOH589zCmcKjBMSGCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkVq9iGHHBg3WWrqRZHVgNmjwF1ckKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkRIYKYGREhgpgZESGCmBkfoFTppisrxAxPwAAAAASUVORK5CYII=" alt="" aria-hidden="true" />
+        <div class="footer-top">
+          <div>
+            <div class="footer-brand">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABTCAMAAAAWcE3zAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAA8UExURVlWV8jHx37Vsrm6vJqbnaurrGhlZu/y8eTk5ISDhTYyM9bV1cHCxACrZ5GPj9Th3Lu9wCMfIHZ4e////1Kbp3EAAAOeSURBVHja7JvrdqQgDIBhAbk4CxXf/12Xi1zk4kxnnO7YQ35UKzF8xiQEewpuXxeWG/haLyxfA3/gD/yBP/AH/sAf+AN/4P8oPkU9UV5BdRVooVCZpO/HV7onGw7qKqhCoTKpBv7vx29Ms8evx9Ue/1Bh4P9yfPonCW3hFwo1vjID66b44/jqbxLVwi8Uavw/ZmDdFD8eP5OBfwq+WtOxid/GGfjXwVcEW4E07xohRRgTFq9AZHWQ+jj8W2goZI7AubsWHgkHJXgqfr4wNPHd6CE+10QxxWaeDRpVyVaKw4yz56ZE81Px71aeIEerub+I8A6fugMOBsle+Xx8mnYjT+EXCPbAMAqxE0/gm/Dbq+59fKy53YdBVuNnOuVzfEzLxviWlZheEd8MQOt+rW8XxKeKhZvwafhk91kAee/k+PVXBrLHP1TIYyeQHuGjMDV/rPLsN6ZP73V7Crn3t6Chpv4zjHf4KFQeqDn1R02j0kfgpwVVs+j07QTHF2LSW2LMLUL5Zv4zvmlu7Ag3q1Z07HYSvW/WW+mK021d73l/fOMc+CfgQyvsOaszhLOPY2Pj4MsshQ2ZNwuwzfQYvlysgOfwQbjTWoF9Pbg0BGwWllp/Ka/28JnwtuQ18SeLbh5BsJfwY/AQAMDcxJc9Cy/gQ+cF9Gz4gOq+9mt4F77ws1kj6Hr4djK9ZYDIKgeRMp8Nml9jcM1YeoEZvtcwPy2O3hTkm/ETtX0O3jWauRSLlHuCF6kri+R8M769F6dTeB9fO2ppEhXJKSu5XuNnvZ9nLNxlbw+fmJMpBhkDS1U4+7EvQCEv4lORT6VzB/XwrcNZWbcexK/kRfyQt+lhYvHv4YvCrPgGvi6bhtfw2VJUmyx8evjl+gC+gX9y7Gd5my6gq+AjVzZyEel1fDw+FUtT+L3YF4/GPgeAP4lPl2KeCt9OMxW5hOwjzQ2jIK88cJ8+Xfy8oejj61a74urzEb7L26rJxAEH7/LC/uaZ3EoR05026r6dmQT86T6+WxEKfiKqCCzwq7zdX/ZgkkCzjmofZtmqO5l+BxI5iaXGd34xN8pdF9hctnxo8WVLQu4WanPiLuCjzWKvQ44vheq8teHJGyTveXBju5IUBHlgu2LGpmpEVF/I9/i2o5ybf/HxnaQz6ztLDIuOkyHf0KDZ2SFlT0phbEiTW2RDSLZlzi+3Nt7jQ8nAH/gDf+AP/IE/8Af+wB/4vxn/2v8t/U+AAQBCjEF9IrMCfgAAAABJRU5ErkJggg==" alt="Audit EU" />
+              <span>Audit EU s.r.o.</span>
+            </div>
+            <p>Nezávislý auditorský pohled na účetní výkazy a komplexní služby v oblasti účetnictví
+              a ekonomického poradenství. Držitel oprávnění č. 468 vydaného Komorou auditorů ČR.</p>
+          </div>
+          <div>
+            <h5>Navigace</h5>
+            <ul>
+              <li><a href="#sluzby">Služby</a></li>
+              <li><a href="#o-spolecnosti">O společnosti</a></li>
+              <li><a href="#firma">Firma</a></li>
+              <li><a href="#reference">Reference</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5>Kontakt</h5>
+            <ul>
+              <li><a href="mailto:mail@auditeu.cz">mail@auditeu.cz</a></li>
+              <li><a href="tel:+420603228993">+420 603 228 993</a></li>
+              <li><a href="#kontakt">Wonkova 385/28, Hradec Králové</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2007–2026 Audit EU s.r.o. Všechna práva vyhrazena.</span>
+          <a href="#home">Nahoru ↑</a>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+  <div class="note-callout"><p>Toto je statický grafický návrh (mockup) — přepínač nahoře simuluje šířky obrazovek. Skutečná React verze bude plně plynule responzivní na všech velikostech.</p></div>
+
+<script>
+  const frame = document.getElementById('frame');
+  const buttons = document.querySelectorAll('.toolbar button');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      frame.classList.remove('tablet','mobile');
+      const v = btn.dataset.view;
+      if(v==='tablet') frame.classList.add('tablet');
+      if(v==='mobile') frame.classList.add('mobile');
+    });
+  });
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  burgerBtn.addEventListener('click', ()=> mobileNav.classList.toggle('open'));
+  mobileNav.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mobileNav.classList.remove('open')));
+</script>
+</body>
+</html>

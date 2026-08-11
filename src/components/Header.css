@@ -11,15 +11,8 @@
   border-bottom: 1px solid var(--line);
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
-
 .brand img {
-  height: 38px;
+  height: 48px;
 }
 
 .brand-name {

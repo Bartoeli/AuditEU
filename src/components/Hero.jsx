@@ -1,6 +1,6 @@
-import { hero, serviceCards } from '../data/content.js';
-import { ServiceIcon, ShieldIcon } from './icons.jsx';
-import './Hero.css';
+import { hero, serviceCards } from "../data/content.js";
+import { ServiceIcon, ShieldIcon } from "./icons.jsx";
+import "./Hero.css";
 
 export default function Hero() {
   return (
@@ -14,16 +14,17 @@ export default function Hero() {
 
       <p className="hero-lead">
         {hero.lead.map((part, i) =>
-          part.strong ? <strong key={i}>{part.text}</strong> : <span key={i}>{part.text}</span>
+          part.strong ? (
+            <strong key={i}>{part.text}</strong>
+          ) : (
+            <span key={i}>{part.text}</span>
+          ),
         )}
       </p>
 
       <div className="hero-actions">
         <a className="btn btn-primary" href={hero.ctaPrimary.href}>
           {hero.ctaPrimary.label}
-        </a>
-        <a className="btn btn-ghost" href={hero.ctaSecondary.href}>
-          {hero.ctaSecondary.label}
         </a>
       </div>
 
@@ -38,11 +39,6 @@ export default function Hero() {
             <div className="go">Zjistit více →</div>
           </a>
         ))}
-      </div>
-
-      <div className="trust-line">
-        <ShieldIcon width="16" height="16" />
-        {hero.trustLine}
       </div>
     </section>
   );

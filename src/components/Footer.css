@@ -6,21 +6,10 @@
   padding: 48px 0 26px;
 }
 
-.footer-mark {
-  position: absolute;
-  right: -40px;
-  bottom: -40px;
-  width: 260px;
-  height: 260px;
-  opacity: 0.1;
-  pointer-events: none;
-  user-select: none;
-}
-
 .footer-top {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
-  gap: 32px;
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
   padding-bottom: 32px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }

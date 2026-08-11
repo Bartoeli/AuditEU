@@ -1,7 +1,10 @@
-import { company } from '../data/content.js';
-import './CompanySection.css';
+import { company } from "../data/content.js";
+import "./CompanySection.css";
 
-const documentImages = import.meta.glob('../assets/*.jpg', { eager: true, import: 'default' });
+const documentImages = import.meta.glob("../assets/*.jpg", {
+  eager: true,
+  import: "default",
+});
 
 function docSrc(fileName) {
   return documentImages[`../assets/${fileName}`];
@@ -24,20 +27,6 @@ export default function CompanySection() {
                 <span>{fact.value}</span>
               </div>
             ))}
-          </div>
-
-          <div>
-            <h3 className="sub-heading">{company.documentsTitle}</h3>
-            <div className="cert-grid">
-              {company.documents.map((doc) => (
-                <a className="cert" href={docSrc(doc.full)} target="_blank" rel="noreferrer" key={doc.title}>
-                  <span className="doc-thumb">
-                    <img src={docSrc(doc.image)} alt={doc.title} />
-                  </span>
-                  <span className="cert-label">{doc.title}</span>
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </div>

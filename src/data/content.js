@@ -107,6 +107,8 @@ export const company = {
   ],
 };
 
+const officeAddressQuery = encodeURIComponent("Wonkova 385/28, 500 02 Hradec Králové");
+
 export const contact = {
   kicker: "Spojte se s námi",
   office: {
@@ -115,7 +117,8 @@ export const contact = {
     addressLines: ["Wonkova 385/28", "500 02 Hradec Králové"],
     email: "bartosova@auditeu.cz",
     web: { label: "www.auditeu.cz", href: "http://www.auditeu.cz" },
-    mapHref: "https://mapy.cz/s/tyw2",
+    mapHref: `https://www.google.com/maps/search/?api=1&query=${officeAddressQuery}`,
+    mapEmbedSrc: `https://www.google.com/maps?q=${officeAddressQuery}&output=embed`,
   },
 };
 
@@ -128,7 +131,6 @@ export const footer = {
     { href: "#sluzby", label: "Služby" },
     { href: "#o-spolecnosti", label: "O společnosti" },
     { href: "#firma", label: "Firma" },
-    { href: "#reference", label: "Reference" },
   ],
   contactTitle: "Kontakt",
   contactLinks: [

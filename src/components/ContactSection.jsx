@@ -1,6 +1,5 @@
 import { contact } from "../data/content.js";
 import { CheckIcon } from "./icons.jsx";
-import sidloMapa from "../assets/sidlo-mapa.jpg";
 import "./ContactSection.css";
 
 export default function ContactSection() {
@@ -35,16 +34,21 @@ export default function ContactSection() {
                 {office.web.label}
               </a>
             </p>
+            <div className="map-embed">
+              <iframe
+                src={office.mapEmbedSrc}
+                title={`Mapa — ${office.name}, ${office.addressLines.join(", ")}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
             <a
-              className="map-thumb"
+              className="contact-link map-link"
               href={office.mapHref}
               target="_blank"
               rel="noreferrer"
             >
-              <img
-                src={sidloMapa}
-                alt="Mapa — sídlo Audit EU s.r.o., Wonkova 385/28, Hradec Králové"
-              />
+              Otevřít na Google Mapách →
             </a>
           </div>
         </div>

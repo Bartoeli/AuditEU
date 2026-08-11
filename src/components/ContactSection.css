@@ -45,12 +45,24 @@
   font-size: var(--fs-lead-mobile);
 }
 
-.map-thumb {
+.map-embed {
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--line);
-  display: block;
   margin-top: 16px;
+  aspect-ratio: 16 / 10;
+}
+
+.map-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.map-link {
+  display: inline-block;
+  margin-top: 10px;
 }
 
 .why-block {

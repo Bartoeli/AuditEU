@@ -1,4 +1,5 @@
 import { about } from '../data/content.js';
+import './AboutSection.css';
 
 export default function AboutSection() {
   return (
@@ -9,7 +10,7 @@ export default function AboutSection() {
           <h2 className="h2">{about.title}</h2>
         </div>
 
-        <div className="split-cols">
+        <div className="about-cols">
           <div>
             {about.paragraphs.map((p, i) => (
               <p className="body-text" key={i}>

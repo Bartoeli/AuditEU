@@ -101,12 +101,16 @@
 
 .s-card {
   display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
   text-decoration: none;
   color: var(--ink);
   background: var(--bg-soft);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 24px 22px;
+  cursor: pointer;
   transition: 0.18s;
 }
 

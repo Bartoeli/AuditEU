@@ -2,7 +2,6 @@ export const nav = [
   { href: "#sluzby", label: "Služby" },
   { href: "#o-spolecnosti", label: "O společnosti" },
   { href: "#firma", label: "Firma" },
-  { href: "#reference", label: "Reference" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 
@@ -40,9 +39,7 @@ export const serviceCards = [
 
 export const economicSection = {
   id: "ekonomicke",
-  kicker: "Služby · 02",
   title: "Ekonomické poradenství",
-  variant: "alt",
   columns: [
     {
       type: "list",
@@ -61,9 +58,7 @@ export const economicSection = {
 
 export const accountingSection = {
   id: "ucetni",
-  kicker: "Služby · 03",
   title: "Účetní poradenství",
-  variant: "plain",
   columns: [
     {
       type: "list",
